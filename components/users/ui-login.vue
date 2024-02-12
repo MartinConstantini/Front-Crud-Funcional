@@ -1,6 +1,9 @@
 <template>
-  <v-card rounded="100" width="400" color="#80DEEA">
-    <v-card-title class="custom-title">Login<v-icon left>mdi-checkbox-marked</v-icon></v-card-title>
+  <v-card class="login-card" rounded width="400">
+    <v-card-title class="custom-title">
+      <v-icon left>mdi-account-key</v-icon>
+      Login
+    </v-card-title>
     <v-card-text>
       <v-form ref="frmLogin" v-model="valid">
         <v-text-field
@@ -8,6 +11,7 @@
           type="text"
           placeholder="Escribe tu usuario"
           label="Usuario"
+          prepend-inner-icon="mdi-account"
           :rules="[rules.required]"
         />
         <v-text-field
@@ -15,15 +19,14 @@
           type="password"
           placeholder="Escribe la contraseña"
           label="Password"
+          prepend-inner-icon="mdi-lock"
           :rules="[rules.required, rules.password]"
         />
       </v-form>
     </v-card-text>
     <v-card-actions>
-      <v-btn block elevation="0" rounded color="#0277BD" @click="loginUser">
-        <v-icon color="#000000">
-          mdi-account
-        </v-icon>
+      <v-btn block elevation="0" rounded color="primary" @click="loginUser">
+        <v-icon color="white">mdi-account</v-icon>
         Login
       </v-btn>
     </v-card-actions>
@@ -39,7 +42,7 @@ export default {
       password: '',
       rules: {
         required: value => !!value || 'Required.',
-        password: value => value.length > 5 || 'Password Requiere 6 chars'
+        password: value => value.length > 5 || 'Password requires 6 chars'
       }
     }
   },
@@ -67,7 +70,7 @@ export default {
             console.log('@@@ error => ', err)
           })
       } else {
-        // manejar alerta
+        // handle alert
       }
     }
   }
@@ -75,10 +78,14 @@ export default {
 </script>
 
 <style scoped>
+.login-card {
+  background-color: #80DEEA;
+}
+
 .custom-title {
   font-family: Helvetica, sans-serif;
   font-weight: bold;
   text-align: center;
-  color: #004D40
+  color: #004D40;
 }
 </style>
