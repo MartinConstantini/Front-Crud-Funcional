@@ -20,7 +20,7 @@
       </v-form>
     </v-card-text>
     <v-card-actions>
-      <v-btn block elevation="0" color="#0277BD" @click="loginUser">
+      <v-btn block elevation="0" rounded color="#0277BD" @click="loginUser">
         <v-icon color="#000000">
           mdi-account
         </v-icon>
