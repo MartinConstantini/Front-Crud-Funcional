@@ -1,6 +1,6 @@
 <template>
-  <v-card width="400" color="#80DEEA">
-    <v-card-title>Welcome</v-card-title>
+  <v-card rounded="100" width="400" color="#80DEEA">
+    <v-card-title class="custom-title">Login<v-icon left>mdi-checkbox-marked</v-icon></v-card-title>
     <v-card-text>
       <v-form ref="frmLogin" v-model="valid">
         <v-text-field
@@ -57,7 +57,7 @@ export default {
             if (result.data.alert === 'success') {
               this.$store.commit('modifyAlert', true)
               this.$store.commit('modifyType', 'success')
-              this.$store.commit('modifyText', 'Bienvenido!!!')
+              this.$store.commit('modifyText', 'Bienvenido :)')
             } else {
               this.$store.commit('modifyAlert', true)
               this.$store.commit('modifyType', 'error')
@@ -75,4 +75,10 @@ export default {
 </script>
 
 <style scoped>
+.custom-title {
+  font-family: Helvetica, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  color: #004D40
+}
 </style>
