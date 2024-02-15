@@ -1,7 +1,9 @@
 <template>
   <v-card class="login-card" rounded width="400">
     <v-card-title class="custom-title">
-      <v-icon left>mdi-account-key</v-icon>
+      <v-icon left>
+        mdi-account-key
+      </v-icon>
       Login
     </v-card-title>
     <v-card-text>
@@ -26,7 +28,9 @@
     </v-card-text>
     <v-card-actions>
       <v-btn block elevation="0" rounded color="primary" @click="loginUser">
-        <v-icon color="white">mdi-account</v-icon>
+        <v-icon color="white">
+          mdi-account
+        </v-icon>
         Login
       </v-btn>
     </v-card-actions>
@@ -61,10 +65,15 @@ export default {
               this.$store.commit('modifyAlert', true)
               this.$store.commit('modifyType', 'success')
               this.$store.commit('modifyText', 'Bienvenido :)')
+              setTimeout(() => {
+                this.$store.commit('modifyAlert', false)
+                this.$router.push('/dashboard')
+              }, 3000)
             } else {
               this.$store.commit('modifyAlert', true)
               this.$store.commit('modifyType', 'error')
               this.$store.commit('modifyText', result.data.alerta)
+              setTimeout(() => { this.$store.commit('modifyAlert', false) }, 300)
             }
           }).catch((err) => {
             console.log('@@@ error => ', err)
