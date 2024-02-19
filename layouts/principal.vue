@@ -18,7 +18,7 @@
       </v-list-item>
       <v-divider />
       <v-list>
-        <v-list-item v-for="opcion in opciones" :key="opcion.titulo" link>
+        <v-list-item v-for="opcion in opciones" :key="opcion.titulo" :to="opcion.path" link>
           <v-list-item-icon><v-icon>{{ opcion.icon }}</v-icon></v-list-item-icon>
           <v-list-item-content><v-list-item-title>{{ opcion.titulo }}</v-list-item-title></v-list-item-content>
         </v-list-item>
@@ -27,20 +27,31 @@
 
     <v-main>
       <Nuxt />
+      <ui-alert v-if="showAlert" class="alerta" />
     </v-main>
   </v-app>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import uiAlert from '@/components/settings/ui-alert.vue'
 export default {
+  components: {
+    uiAlert
+  },
   data () {
     return {
       drawer: true,
       mini: true,
       opciones: [
-        { titulo: 'Users', icon: 'mdi-account', path: '/dashboard/users' }
+        { titulo: 'Users', icon: 'mdi-account', path: 'dashboard/users' }
       ]
     }
+  },
+  computed: {
+    ...mapState({
+      showAlert: state => state.showAlert
+    })
   }
 }
 </script>
