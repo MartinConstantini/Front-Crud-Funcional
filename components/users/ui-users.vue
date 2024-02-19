@@ -72,8 +72,7 @@
             Cancelar
           </v-btn>
           <v-btn @click="guardaUsuario">
-            <v-icon>mdi-account</v-icon>
-            Guardar
+            <v-icon>mdi-account</v-icon>  Guardar
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -92,40 +91,45 @@ export default {
         { text: 'A. Materno', align: 'center', sortable: true, value: 'amaterno' },
         { text: 'Telefono', align: 'center', sortable: true, value: 'telefono' },
         { text: 'Usuario', align: 'center', sortable: true, value: 'usuario' },
-        { text: 'Acciones', align: 'center', sortable: false }
+        { text: 'Acciones', align: 'center', sortable: false, value: 'Acciones' }
       ],
       showDialog: false,
-      frmUser: false, // inicializa frmUser como false
+      frmUser: false,
       usuario: {
         nombre: '',
         apaterno: '',
         amaterno: '',
         telefono: '',
-        usuario: ''
+        usuario: '',
+        password: ''
       },
       requerido: value => !!value || 'Required.',
       longitud3: value => value.length > 2 || 'Nombre requiere mas de 3 letras',
       longitud6: value => value.length > 5 || 'Password requiere'
+
     }
   },
+
   mounted () {
     this.getAllUsers()
   },
+
   methods: {
     async getAllUsers () {
       const response = await this.$axios.get('get-all')
       if (response.data.alerta === 'Success') {
         this.usuarios = response.data.data
       }
+      // console.log('@@ response =>', response)
     },
     guardaUsuario () {
       this.frmUser = this.$refs.frmUser.validate()
       if (this.frmUser) {
         this.$axios.post('signup', this.usuario)
           .then((result) => {
-            if (result.data.alert === 'Success') {
+            if (result.data.alert === 'success') {
               this.$store.commit('modifyAlert', true)
-              this.$store.commit('modifyType', 'Success')
+              this.$store.commit('modifyType', 'success')
               this.$store.commit('modifyText', 'Usuario Registrado')
               setTimeout(() => {
                 this.$store.commit('modifyAlert', false)
