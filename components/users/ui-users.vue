@@ -88,11 +88,11 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="showDialog = false">
+          <v-btn @click="showDialog = false; resetForm()">
             <v-icon>mdi-cancel</v-icon>
             Cancelar
           </v-btn>
-          <v-btn color="secondary" @click="guardaUsuario">
+          <v-btn color="secondary" @click="guardaUsuario ">
             <v-icon>mdi-account</v-icon>  Guardar
           </v-btn>
         </v-card-actions>
@@ -119,7 +119,7 @@
           <v-btn
             color="red darken-1"
             text
-            @click="dialogDelete = false"
+            @click="dialogDelete = false; resetForm()"
           >
             Cancel
           </v-btn>
@@ -127,7 +127,7 @@
           <v-btn
             color="green darken-1"
             text
-            @click="postDelete"
+            @click="postDelete, resetForm() "
           >
             Delete
           </v-btn>
@@ -184,7 +184,7 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="dialogUpdate = false">
+          <v-btn @click="dialogUpdate = false; resetForm()">
             <v-icon>mdi-cancel</v-icon>
             Cancelar
           </v-btn>
@@ -256,6 +256,7 @@ export default {
                 this.$store.commit('modifyAlert', false)
                 this.getAllUsers()
                 this.showDialog = false
+                this.resetForm()
               }, 3000)
             }
           })
@@ -308,12 +309,26 @@ export default {
         this.$axios.post('update-user', this.usuario)
           .then((result) => {
             console.log('@@ update =>', result)
+            this.getAllUsers()
+            this.dialogUpdate = false
+            this.resetForm()
           })
           .catch((error) => {
             console.log('@@ error => ', error)
+            this.resetForm()
           })
       } else {
         // algo salio mal
+      }
+    },
+    resetForm () {
+      this.usuario = {
+        nombre: '',
+        apaterno: '',
+        amaterno: '',
+        telefono: '',
+        usuario: '',
+        password: ''
       }
     }
   }
