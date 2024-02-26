@@ -18,17 +18,17 @@
               <v-tooltip bottom color="red">
                 <template #activator="{ on, attrs }">
                   <v-btn icon color="red" v-bind="attrs" @click="deleteUser(item.usuario)" v-on="on">
-                    <v-icon>mdi-delete</v-icon>
+                    <v-icon>mdi-delete-variant</v-icon>
                   </v-btn>
                 </template>
                 <span>Borrar el usuario:{{ item.usuario }}</span>
               </v-tooltip>
             </v-col>
             <v-col cols="6">
-              <v-tooltip left color="red">
+              <v-tooltip left color="light-blue accent-2">
                 <template #activator="{ on, attrs }">
-                  <v-btn icon color="yellow darkeen-4" v-bind="attrs" @click="updateUser(item)" v-on="on">
-                    <v-icon>mdi-update</v-icon>
+                  <v-btn icon color="green accent-4" v-bind="attrs" @click="updateUser(item)" v-on="on">
+                    <v-icon>mdi-table-edit</v-icon>
                   </v-btn>
                 </template>
                 <span>Actualizar el usuario:{{ item.usuario }}</span>
@@ -38,13 +38,13 @@
         </template>
       </v-data-table>
     </v-row>
-    <v-dialog v-model="showDialog" width="600" persistent>
-      <v-card class="lime lighten-4">
+    <v-dialog v-model="showDialog" width="600" persistent color="blue-grey lighten-1">
+      <v-card class="blue-grey lighten-1">
         <v-card-title class="primary white--text">
           Datos del Usuario
         </v-card-title>
-        <v-card-text>
-          <v-form ref="frmUser" v-model="frmUser">
+        <v-card-text color="blue-grey lighten-1">
+          <v-form ref="frmUser" v-model="frmUser" color="blue-grey lighten-1">
             <v-text-field
               v-model="usuario.nombre"
               type="text"
@@ -88,11 +88,11 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="showDialog = false; resetForm()">
+          <v-btn color="red lighten-1" @click="showDialog = false; resetForm()">
             <v-icon>mdi-cancel</v-icon>
             Cancelar
           </v-btn>
-          <v-btn color="secondary" @click="guardaUsuario ">
+          <v-btn color="green accent-3" @click="guardaUsuario ">
             <v-icon>mdi-account</v-icon>  Guardar
           </v-btn>
         </v-card-actions>
@@ -104,7 +104,7 @@
       persistent
       color="blue"
     >
-      <v-card>
+      <v-card color="red lighten-4">
         <v-card-title class="text-h5">
           Delete User
         </v-card-title>
@@ -117,7 +117,7 @@
           <v-spacer />
 
           <v-btn
-            color="red darken-1"
+            color="green darken-1"
             text
             @click="dialogDelete = false; resetForm()"
           >
@@ -125,9 +125,10 @@
           </v-btn>
 
           <v-btn
-            color="green darken-1"
+            color="red darken-1"
+            icon
             text
-            @click="postDelete, resetForm() "
+            @click="postDelete"
           >
             Delete
           </v-btn>
@@ -135,9 +136,9 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="dialogUpdate" width="600" persistent>
-      <v-card color="green lighten-4">
-        <v-card-title class="primary white--text">
-          Datos del Usuario
+      <v-card color="light-blue lighten-4">
+        <v-card-title icon class="primary white--text">
+          <v-icon>mdi-file-account</v-icon>Datos del Usuario
         </v-card-title>
         <v-card-text>
           <v-form ref="frmUserUpdate" v-model="frmUserUpdate">
@@ -184,11 +185,11 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="dialogUpdate = false; resetForm()">
+          <v-btn color="red accent-3" @click="dialogUpdate = false; resetForm()">
             <v-icon>mdi-cancel</v-icon>
             Cancelar
           </v-btn>
-          <v-btn color="secondary" @click="actualizarUsuario">
+          <v-btn color="green accent-3" @click="actualizarUsuario">
             <v-icon>mdi-account-arrow-up</v-icon>  Actualizar
           </v-btn>
         </v-card-actions>
@@ -198,17 +199,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
       usuarios: [],
       headers: [
-        { text: 'Nombre', align: 'center', sortable: true, value: 'nombre' },
-        { text: 'A. Paterno', align: 'center', sortable: true, value: 'apaterno' },
-        { text: 'A. Materno', align: 'center', sortable: true, value: 'amaterno' },
-        { text: 'Telefono', align: 'center', sortable: true, value: 'telefono' },
-        { text: 'Usuario', align: 'center', sortable: true, value: 'usuario' },
-        { text: 'Acciones', align: 'center', sortable: false, value: 'Acciones' }
+        { text: 'Nombre', align: 'center', sortable: true, value: 'nombre', icon: 'mdi-account' },
+        { text: 'A. Paterno', align: 'center', sortable: true, value: 'apaterno', icon: 'mdi-account' },
+        { text: 'A. Materno', align: 'center', sortable: true, value: 'amaterno', icon: 'mdi-account' },
+        { text: 'Telefono', align: 'center', sortable: true, value: 'telefono', icon: 'mdi-phone' },
+        { text: 'Usuario', align: 'center', sortable: true, value: 'usuario', icon: 'mdi-account' },
+        { text: 'Acciones', align: 'center', sortable: false, value: 'Acciones', icon: 'mdi-settings' }
       ],
       showDialog: false,
       frmUser: false,
@@ -230,14 +232,23 @@ export default {
 
     }
   },
-
+  computed: {
+    ...mapState({
+      token: state => state.token
+    })
+  },
   mounted () {
     this.getAllUsers()
   },
 
   methods: {
     async getAllUsers () {
-      const response = await this.$axios.get('get-all')
+      const response = await this.$axios.get('get-all', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        }
+      })
       if (response.data.alerta === 'Success') {
         this.usuarios = response.data.data
       }
@@ -249,14 +260,16 @@ export default {
         this.$axios.post('signup', this.usuario)
           .then((result) => {
             if (result.data.alert === 'success') {
-              this.$store.commit('modifyAlert', true)
-              this.$store.commit('modifyType', 'success')
-              this.$store.commit('modifyText', 'Usuario Registrado')
               setTimeout(() => {
-                this.$store.commit('modifyAlert', false)
                 this.getAllUsers()
                 this.showDialog = false
                 this.resetForm()
+                this.$store.commit('modifyAlert', true)
+                this.$store.commit('modifyType', 'success')
+                this.$store.commit('modifyText', 'Usuario Registrado')
+              }, 1000)
+              setTimeout(() => {
+                this.$store.commit('modifyAlert', false)
               }, 3000)
             }
           })

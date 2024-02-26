@@ -59,7 +59,7 @@ export default {
 <style scoped>
 .bg-gradient {
   background-color: #ff0000; /* Color de fondo */
-  background-image: linear-gradient(45deg, #00ff84, #ffffff); /* Degradado */
+  background-image: linear-gradient(45deg, #707ca2, #ffffff); /* Degradado */
 }
 
 .v-list-item--active .v-list-item__content {
@@ -67,6 +67,6 @@ export default {
 }
 
 .alerta {
-  background-color: #810404 !important; /* Color de fondo del alerta */
+  background-color: #5afa77 !important; /* Color de fondo del alerta */
 }
 </style>

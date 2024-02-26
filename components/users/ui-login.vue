@@ -65,6 +65,7 @@ export default {
               this.$store.commit('modifyAlert', true)
               this.$store.commit('modifyType', 'success')
               this.$store.commit('modifyText', 'Bienvenido :)')
+              this.$store.commit('modifyToken', result.data.token)
               setTimeout(() => {
                 this.$store.commit('modifyAlert', false)
                 this.$router.push('/dashboard')

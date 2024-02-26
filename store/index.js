@@ -1,7 +1,8 @@
 export const state = () => ({
   type: '',
   showAlert: false,
-  mensaje: ''
+  mensaje: '',
+  token: ''
 })
 
 export const mutations = {
@@ -13,5 +14,8 @@ export const mutations = {
   },
   modifyText (state, mensaje) {
     state.mensaje = mensaje
+  },
+  modifyToken (state, token) {
+    state.token = token
   }
 }
